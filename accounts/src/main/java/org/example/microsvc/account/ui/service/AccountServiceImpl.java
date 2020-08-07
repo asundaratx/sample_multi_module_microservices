@@ -1,10 +1,12 @@
 package org.example.microsvc.account.ui.service;
 
 import org.example.microsvc.account.model.response.AccountRest;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class AccountServiceImpl implements AccountServiceInterface {
 
     private AccountRest getSampleAccount(String userId){

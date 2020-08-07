@@ -3,6 +3,7 @@ package org.example.microsvc.mobileapp.ui.controller;
 import org.example.microsvc.mobileapp.model.request.UserRestRequest;
 import org.example.microsvc.mobileapp.model.request.UserUpdateRequest;
 import org.example.microsvc.mobileapp.model.response.UserRest;
+import org.example.microsvc.mobileapp.model.response.UserRestDetails;
 import org.example.microsvc.mobileapp.ui.service.UserServiceImpl;
 import org.example.microsvc.mobileapp.ui.service.UserServiceInterface;
 import org.example.microsvc.mobileapp.ui.utils.ApplicationException;
@@ -61,7 +62,6 @@ public class UserController {
     public UserRest getUserById(@PathVariable String userId){
         return userService.getUser(userId);
     }
-
 
     @PostMapping (
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
