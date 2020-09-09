@@ -8,4 +8,4 @@ This will be updated to also include a Zipkin Server for tracing,
 as well as Vault for secrets.
 
 The final application architecture should resemble:
-![this diagram](https://github.com/asundaratx/sample_multi_module_microservices/blob/master/image.jpg?raw=true)
+![this diagram](https://raw.githubusercontent.com/asundaratx/sample_multi_module_microservices/master/blob/image.jpg)
