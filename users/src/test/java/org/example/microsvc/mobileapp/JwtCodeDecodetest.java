@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Date;
 
@@ -33,5 +34,13 @@ public class JwtCodeDecodetest {
         String userIdDecoded = body.getSubject();
         log.info("userIdDecoded: ", userIdDecoded);
         Assertions.assertEquals(userId, userIdDecoded);
+    }
+
+    @Test
+    public void testPasswordEncryption(){
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String password = "password";
+        String encryptedPassword = bCryptPasswordEncoder.encode(password);
+        log.info(encryptedPassword);
     }
 }

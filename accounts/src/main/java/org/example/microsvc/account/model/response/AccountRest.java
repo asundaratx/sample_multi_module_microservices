@@ -6,5 +6,5 @@ import lombok.Data;
 public class AccountRest {
     private String userId;
     private String accountId;
-    private Double accountBalance;
+    private Double balance;
 }

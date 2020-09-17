@@ -43,15 +43,28 @@ public class UserController {
         users.add(user);
         return users;
     }
+
+    @GetMapping( path="/sampleusers",
+            produces = {
+            MediaType.APPLICATION_XML_VALUE,
+            MediaType.APPLICATION_JSON_VALUE
+    })
+    public ResponseEntity<List<UserRest>> getSampleUser(@RequestParam(value="page", defaultValue = "1") int page,
+                                                  @RequestParam(value = "limit", defaultValue = "10") int limit,
+                                                  @RequestParam(value = "sort", defaultValue = "desc",required = false) String sort){
+        log.info("Getting user in user microservice");
+        return new ResponseEntity<List<UserRest>>(getSampleUsers(), HttpStatus.OK);
+    }
+
     @GetMapping(produces = {
             MediaType.APPLICATION_XML_VALUE,
             MediaType.APPLICATION_JSON_VALUE
     })
-    public ResponseEntity<List<UserRest>> getUser(@RequestParam(value="page", defaultValue = "1") int page,
+    public ResponseEntity<List<UserRest>> getUsers(@RequestParam(value="page", defaultValue = "1") int page,
                                                  @RequestParam(value = "limit", defaultValue = "10") int limit,
                                                  @RequestParam(value = "sort", defaultValue = "desc",required = false) String sort){
         log.info("Getting user in user microservice");
-        return new ResponseEntity<List<UserRest>>(getSampleUsers(), HttpStatus.OK);
+        return new ResponseEntity<List<UserRest>>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @GetMapping(path="/{userId}",

@@ -54,9 +54,9 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         try {
 
             String key = "abcdefgh";
-            userId = Jwts.parser()
-                    .parseClaimsJws(token).getBody()
-                    .getSubject();
+            JwtParser parser = Jwts.parser().setSigningKey(key);
+            Claims body = parser.parseClaimsJws(token).getBody();
+            userId = body.getSubject();
             log.info(userId);
         } catch (Exception e) {
            log.info(e.getLocalizedMessage());

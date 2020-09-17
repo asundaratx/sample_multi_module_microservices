@@ -10,15 +10,16 @@ import javax.persistence.*;
 public class UserModel {
     @Id
     @GeneratedValue
+    @Column(name="id")
     private long id;
-    @Column(nullable = false)
+    @Column(name="firstname",nullable = false)
     private String firstName;
-    @Column(nullable = false)
+    @Column(name="lastname",nullable = false)
     private String lastName;
-    @Column(nullable = false)
+    @Column(name="email",nullable = false)
     private String email;
-    @Column(nullable = false, unique = true)
+    @Column(name="userid",nullable = false, unique = true)
     private String userId;
-    @Column(nullable = false)
+    @Column(name="encryptedpassword",nullable = false)
     private String encryptedPassword;
 }
