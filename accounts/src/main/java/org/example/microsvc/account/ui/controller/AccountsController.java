@@ -5,6 +5,7 @@ import org.example.microsvc.account.model.request.AccountRestRequest;
 import org.example.microsvc.account.model.request.AccountUpdateRequest;
 import org.example.microsvc.account.model.response.AccountRest;
 import org.example.microsvc.account.ui.service.AccountServiceInterface;
+import org.example.microsvc.account.ui.service.UserMessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,10 +21,13 @@ import java.util.List;
 @Slf4j
 public class AccountsController {
     private AccountServiceInterface accountServiceInterface;
+    private UserMessageSender userMessageSender;
 
     @Autowired
-    public AccountsController(AccountServiceInterface accountServiceInterface){
+    public AccountsController(AccountServiceInterface accountServiceInterface,
+                              UserMessageSender userMessageSender){
         this.accountServiceInterface = accountServiceInterface;
+        this.userMessageSender = userMessageSender;
     }
 
     @GetMapping(path = "/accounts",
@@ -68,6 +72,7 @@ public class AccountsController {
                                                BindingResult bindingResult ){
         if (bindingResult.hasErrors())
             throw new RuntimeException("Invalid input parameters");
+        userMessageSender.send("userId",userId);
         AccountRest account = accountServiceInterface.createAccount(userId,accountRestRequest);
         return new ResponseEntity<AccountRest>(account, HttpStatus.OK);
     }

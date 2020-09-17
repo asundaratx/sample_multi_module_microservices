@@ -14,4 +14,5 @@ public interface UserServiceInterface extends UserDetailsService {
     public UserRest updateUser(String userId, UserUpdateRequest userRestRequest);
     public void deleteUser(String userId);
     public UserRest getUserByEmail(String email);
+    public void validateUserByUserId(String userId);
 }

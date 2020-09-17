@@ -1,10 +1,12 @@
 package org.example.microsvc.mobileapp.ui.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.microsvc.mobileapp.model.data.UserModel;
 import org.example.microsvc.mobileapp.model.repository.UserRepository;
 import org.example.microsvc.mobileapp.model.request.UserRestRequest;
 import org.example.microsvc.mobileapp.model.request.UserUpdateRequest;
 import org.example.microsvc.mobileapp.model.response.UserRest;
+import org.example.microsvc.mobileapp.ui.utils.MessageSender;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -17,17 +19,21 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserServiceInterface{
     private UserRepository userRepository;
     private ModelMapper modelMapper;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private MessageSender messageSender;
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            ModelMapper modelMapper,
-                           BCryptPasswordEncoder bCryptPasswordEncoder){
+                           BCryptPasswordEncoder bCryptPasswordEncoder,
+                           MessageSender messageSender){
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.messageSender = messageSender;
     }
 
     private UserRest convertToUserRest(UserModel userModel) {
@@ -50,7 +56,6 @@ public class UserServiceImpl implements UserServiceInterface{
     public UserRest getUserByEmail(String email){
         return modelMapper.map(userRepository.findByEmail(email), UserRest.class);
     }
-
     public List<UserRest> getAllUsers(){
         List<UserModel> userModelList = new ArrayList<>();
         Iterable<UserModel> users = userRepository.findAll();
@@ -76,5 +81,16 @@ public class UserServiceImpl implements UserServiceInterface{
                 true, true,
                 true, true,
                 new ArrayList<>());
+    }
+
+    @Override
+    public void validateUserByUserId(String userId) {
+        log.info("Validating user with id:" + userId);
+        UserModel userModel = userRepository.findByUserId(userId);
+        if (userModel !=null && userModel.getEmail()!=null) {
+            messageSender.send("isvalid",userId);
+        } else {
+            messageSender.send("isinvalid",userId);
+        }
     }
 }
